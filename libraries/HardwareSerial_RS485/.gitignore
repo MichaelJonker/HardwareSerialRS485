@@ -1,0 +1,40 @@
+# Note: because this repository is a 'fine' selection of a much larger file structure in my work directory
+# I choose to ignore all
+*
+
+# As git does not ignore files specified in .gitignore that are already tracked,
+# files can be added to the repository with  git add -f. <file>
+# However, for completeness, all what should be in the repository is summed up here.
+# note: git is case insensitive to the entries in .gitignore
+
+### not ignored (hence included) are ======================
+
+#this file
+!.gitignore
+!Figure1.JPG
+
+#the HardwareSerial_RS485 readme
+!readme.md
+
+#the HardwareSerial_RS485 header and implementation file
+!HardwareSerial_RS485.h
+!HardwareSerial_RS485.cpp
+
+#the HardwareSerial_RS485Enabled and HardwareSerial_RS485Helper class
+!HardwareSerial_RS485Enabled.h
+!HardwareSerial_RS485Helper.h
+
+#the USB specific adaptation of HardwareSerial
+!HardwareSerial_USB.cpp
+!HardwareSerial_USB.h
+
+#template definitions for generic bit handling
+!BitManipulation.h
+
+#enhance Print.h class
+!Print.h
+!Print.cpp
+
+!USARTdef.h
+
+!USART_analysis.bash

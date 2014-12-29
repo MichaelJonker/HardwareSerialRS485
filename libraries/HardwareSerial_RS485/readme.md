@@ -8,7 +8,7 @@ This project provides a software suite to support the use of an RS485 transceive
 
 An example of a hardware connection is given in Figure 1, which shows the connection of the RO, DI, RE* and DE lines of an RS485 transceiver to the Atmega/Arduino. Connecting the enable lines DE and RE* to separate pins of the Atmega/Arduino, gives the software full control over the communication via RS485.
 
-![Figure 1](libraries/HardwareSerial_RS485/Figure1.JPG)
+![Figure 1](Figure1.JPG)
 **Figure 1**
 
 The individual control of the RS485 enable lines allows for various modes of operation, including collision detection (requiring read while write) and exclusive communication over RS232 (requiring no read, as enabling read from RS485 mutes the regular RS232 reception). Furthermore, the RE* pull-up circuit will ensure that the RS485 read is disabled upon reset of the Atmega/Arduino; hence allowing program downloads in the usual way from the Arduino IDE. Note that, apart from this pull up resistor, all other extra components in the above diagram are optional. However, the presence of the LED to indicate the receive/transmit status of the RS485 will be very appreciated for diagnostics.

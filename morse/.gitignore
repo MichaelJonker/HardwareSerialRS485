@@ -1,0 +1,23 @@
+# Note: because this repository is a 'fine' selection of a much larger file structure in my work directory
+# I choose to ignore all
+*
+
+# As git does not ignore files specified in .gitignore that are already tracked,
+# files can be added to the repository with  git add -f. <file>
+# However, for completeness, all what should be in the repository is summed up here.
+# note: git is case insensitive to the entries in .gitignore
+
+### not ignored (hence included) are ======================
+
+#this file
+!.gitignore
+
+#the readme of the sketch
+!readme.md
+
+# The arduino sketch to test the code :
+!morse.ino
+#
+# two extra files used by the sketch to control communication
+!CommunicationParameters.h
+!CommunicationParameters.cpp
