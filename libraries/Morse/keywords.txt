@@ -1,5 +1,0 @@
-Morse   KEYWORD1
-dash    KEYWORD2
-dot     KEYWORD2
-space   KEYWORD2
-send    KEYWORD2
