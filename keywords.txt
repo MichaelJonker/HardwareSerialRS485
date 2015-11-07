@@ -1,0 +1,70 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Datatypes and classes (KEYWORD1)
+#######################################
+
+MD_AButton	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+# from BitManipulation.h
+setBits	KEYWORD2
+clrBits	KEYWORD2
+modBits	KEYWORD2
+setBit	KEYWORD2
+clrBit	KEYWORD2
+testBit	KEYWORD2
+testBitsAny	KEYWORD2
+testBitsAll	KEYWORD2
+testBitField	KEYWORD2
+setBitField	KEYWORD2
+getBitField	KEYWORD2
+neukBits	KEYWORD2
+
+#TRxControl methods ##############################################
+setPermaRead	KEYWORD2
+clrPermaRead	KEYWORD2
+setPermaWrite	KEYWORD2
+setPermaSilence	KEYWORD2
+setWriteLocalEcho	KEYWORD2
+setWriteNoLocalEcho	KEYWORD2
+
+set485Mode	KEYWORD2
+set232Mode	KEYWORD2
+
+getMode	KEYWORD2
+setMode	KEYWORD2
+diagnose	KEYWORD2
+setAddressFilter	KEYWORD2
+
+isPermaRead	KEYWORD2
+isPermaWrite	KEYWORD2
+isPermaSilence	KEYWORD2
+isWriteLocalEcho	KEYWORD2
+isWriteNoLocalEcho	KEYWORD2
+
+
+* Transaction methods ############################################
+TransactionActive	LITERAL1
+WriteBufferFullTimeout	LITERAL1
+FlushPipelineError	LITERAL1
+FlushTimeoutExpired	LITERAL1
+NoRecoveryError	LITERAL1
+
+startTransaction	KEYWORD2
+endTransaction	KEYWORD2
+isTransactionActive	KEYWORD2
+
+
+* MessageReader methods ############################################
+MessageReader 	KEYWORD1
+isMessage	KEYWORD2
+getMessage	KEYWORD2
+getMessageOrigin	KEYWORD2
+getMessageLength	KEYWORD2
+nextMessage	KEYWORD2

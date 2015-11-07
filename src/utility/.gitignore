@@ -12,12 +12,15 @@
 #this file
 !.gitignore
 
-#the HardwareSerialRS485 descriptions (for human, librarien and IDE)
-!readme.md
-!library.properties
-!keywords.txt
+#the HardwareSerialRS485 helper classes
+!HardwareSerialRS485_Enabled.h
+!HardwareSerialRS485_Helper.h
+!HardwareSerialRS485_Tracer.h
+!MessageFilter.h
+!SerialUSBSwitch.h
 
-# the sub folders
-!src
-!extras
-!examples
+#template class definition for all possible USART
+!USARTdef.h
+
+#template definitions for generic bit handling
+!BitManipulation.h

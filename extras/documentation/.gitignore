@@ -12,12 +12,10 @@
 #this file
 !.gitignore
 
-#the HardwareSerialRS485 descriptions (for human, librarien and IDE)
-!readme.md
-!library.properties
-!keywords.txt
-
-# the sub folders
-!src
-!extras
-!examples
+#the figures used by the readme.md
+!Figure1.jpg
+!Figure2.jpg
+!Figure3.jpg
+!Figure4.jpg
+!Figure5.jpg
+!Figure6.jpg

@@ -12,12 +12,16 @@
 #this file
 !.gitignore
 
-#the HardwareSerialRS485 descriptions (for human, librarien and IDE)
-!readme.md
-!library.properties
-!keywords.txt
+#the HardwareSerialRS485 header and implementation file
+!HardwareSerialRS485.h
+!HardwareSerialRS485.cpp
 
-# the sub folders
-!src
-!extras
-!examples
+#the Messagereader header file
+!MessageReader.h
+
+#the HardwareSerialRS485_configuration and boards.txt
+!HardwareSerialRS485_configuration.h
+!boards.txt
+
+# sub folders
+!utility
