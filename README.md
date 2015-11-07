@@ -43,28 +43,28 @@ Note that, apart from the RE\* pull up resistor, all other extra components in t
 
 The RS485 circuit can be implemented on a breadboard (Figure 2), soldered onto a shield (Figure 3), or included into a new PCboard design (Figures 4).
 
-![Figure 2](extras/documentation/Figure2.JPG)
+![Figure 2](extras/documentation/Figure2.jpg)
 
 **Figure 2.** The simplest breadboard realization of the circuit shown in figure 1, based on the Arduino/Micro and a directly mounted RS485 transmitter IC.
 
-![Figure 3](extras/documentation/Figure3.JPG)
+![Figure 3](extras/documentation/Figure3.jpg)
 
 **Figure 3.** A more sophisticated implementation with additional circuitry based on the screw-shield. The RS485 interface IC is visible in the top-middle on the shield.
 
-![Figure 4](extras/documentation/Figure4.JPG)
+![Figure 4](extras/documentation/Figure4.jpg)
 
 **Figure 4.** A prototype chassis with a primitive backplane connects two custom designed Atmega/Arduino PC boards to the RS485 bus.
 
 
 Alternatively a circuit board containing a 485 interface can be procured from http://yourduino.com/sunshop2/index.php?l=product_detail&p=323 (see Figure 5). This board does not, however, contain the LEDs to indicate the status of the enable lines. More important, this board has a DE high pullup, (in contrast to the recommended configuration shown in figure 1), with the implication that upon start-up of the Arduino (all ports tri-stated), Data Transmission is enabled. As a consequence, the MAX485 will actively drive the RS485 bus, blocking any bus transmission. Hence, it is suggested to remove the DE pullup and to add an external pulldown resistor. Finally one should be aware that these interface boards contain a 120 ohm bus termination resistor, which is not a problem if used in point to point communications, but not in a multidrop environment, where only the extremities of the bus should be terminated.
 
-![Figure 5](extras/documentation/Figure5.JPG)
+![Figure 5](extras/documentation/Figure5.jpg)
 
 **Figure 5.** Breadboard version based on a small pc board with a premounted RS485 interface. Due to circuit failure in the RS485 PC boards (possibly following a manipulation error), this configuration was not fully tested.
 
 Figure 6 shows the test setup used by the author to develop the HardwareSerialRS485 library, connecting together 6 RS485 devices (One RS485-USB connected to the PC, one Uno/ScrewShield, 50 m of cable, one Micro/breadboard, two custom boards, a second RS485-USB connected to the PC).
 
-![Figure 6](extras/documentation/Figure6.JPG)
+![Figure 6](extras/documentation/Figure6.jpg)
 
 **Figure 6.**
 
