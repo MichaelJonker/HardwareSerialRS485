@@ -117,7 +117,7 @@ class MessageFilter : public T__MFP // =========================================
     if(c== T__MFP::SOM)                          // start of message, common action for all states
     {
       __label__(2);
-      if(myAddressList==0) return 0;                // eat, don't argue
+      if(myAddressList==0) return 0x10;             // eat, don't argue
       filterState=0;                                // set filterState to address check mode
       addressActiveMask = 0xff;                     // prepare for a fresh round
       return 0;                                     // we'll retain the SOM character
