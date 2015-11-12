@@ -12,10 +12,5 @@
 #this file
 !.gitignore
 
-#the figures used by the readme.md
-!Figure1.jpg
-!Figure2.jpg
-!Figure3.jpg
-!Figure4.jpg
-!Figure5.jpg
-!Figure6.jpg
+#the schema
+!Schema.jpg

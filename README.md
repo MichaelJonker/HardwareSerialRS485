@@ -1,6 +1,6 @@
 # Arduino RS485 communication software
 
-Michael Jonker
+by Michael Jonker
 
 [//]: # (This README.md file is written in github flavoured markdown. This file is visualized best by opening the project page on https://github.com/MichaelJonker/HardwareSerialRS485.)
 
