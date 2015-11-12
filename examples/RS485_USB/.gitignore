@@ -12,8 +12,5 @@
 #this file
 !.gitignore
 
-#subfolder with a simple command response test program
-!RS485CommandResponse
-
-#subfolder with a RS485 to USB bridge which can serve as a host interface
-!RS485_USB
+#the sketch
+!RS485_USB.ino
