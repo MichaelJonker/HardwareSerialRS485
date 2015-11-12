@@ -120,9 +120,15 @@ class ApplicationControl // ====================================================
   }
   inline void setRS485_SlaveId(char theSlaveId)                 { applicationInstance=theSlaveId; }
   inline void setRS485_Priority(unsigned char thePriority)      { RS485_Priority=thePriority <= 31 ?  thePriority : 31; }
+<<<<<<< HEAD
   inline unsigned char getRS485Priority()                       { return RS485_Priority; }
   inline void startMessage(unsigned char aPriority=0xff)        { Serial.print((char) USBMessageReaderClass::SOM); }
   inline unsigned char endMessage()                             { Serial.print((char) USBMessageReaderClass::EOM); Serial.println(); }
+=======
+  inline unsigned char getRS485_Priority()                      { return RS485_Priority; }
+  inline void startMessage(unsigned char aPriority=0xff)        { Serial.print((char) MyMessageReaderClass::SOM); }
+  inline unsigned char endMessage()                             { Serial.print((char) MyMessageReaderClass::EOM); Serial.println(); }
+>>>>>>> e07c1587865fe5a51b58935d9c92a6e4b9ba91aa
 
   void printAliveMessage()
   {
