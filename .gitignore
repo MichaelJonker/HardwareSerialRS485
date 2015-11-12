@@ -13,6 +13,7 @@
 !.gitignore
 
 #the HardwareSerialRS485 descriptions (for human, librarien and IDE)
+!readme.txt
 !readme.md
 !library.properties
 !keywords.txt
