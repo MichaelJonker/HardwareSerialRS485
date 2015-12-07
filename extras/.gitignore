@@ -12,5 +12,9 @@
 #this file
 !.gitignore
 
+# the boards.txt and DisableHardwareSerial.h
+!boards.txt
+!DisableHardwareSerial.h
+
 #subfolder
 !documentation

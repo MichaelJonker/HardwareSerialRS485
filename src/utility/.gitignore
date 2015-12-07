@@ -24,3 +24,6 @@
 
 #template definitions for generic bit handling
 !BitManipulation.h
+
+#the HardwareSerialRS485_configuration.h
+!HardwareSerialRS485_configuration.h

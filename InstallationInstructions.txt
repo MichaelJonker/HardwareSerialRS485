@@ -1,0 +1,28 @@
+Arduino RS485 communication software
+
+by Michael Jonker
+
+This file gives the installation instructions of HardwareSerialRS485.
+
+For detailed instructions see: https://github.com/MichaelJonker/HardwareSerialRS485/wiki/installation-and-deployment
+
+To use the HardwareSerialRS485 library you have to specify to which ports the TE and RE* enable lines the RS485 interface transceiver is connected.
+For convenience, you are advised to define your RS485 specific boards using the following instructions:
+
+a) Create the following folder structure under your Arduino Project Folder <APF>:
+   <APF>/hardware/HardwareSerialRS485/avr
+   where <APF> is your existing Arduino project folder, i.e. the folder under which all your sketches are
+   residing as well as the libraries folder with the user installed libraries.
+
+b) Copy the following files to <APF>/hardware/HardwareSerialRS485/avr
+   <APF>/libraries/HardwareSerialRS485/extras/boards.txt
+   <APF>/libraries/HardwareSerialRS485/extras/DisableHardwareSerial.h
+   These files are distributed together with this library.
+   
+c) Edit the file boards.txt to configure your board specific parameters for the RS485 WE and RE* connections, through
+   the definitions "-DRS485configuration_TRxControl=TRxControl< 'B', 7, 6 >" in the extra_flags values.
+   Detailed instructions are given in the boards.txt file and on the project wiki pages.
+
+For the latest development, questions and issue reporting, visit the project page: https://github.com/MichaelJonker/HardwareSerialRS485
+
+For full documentation see the project wiki pages: https://github.com/MichaelJonker/HardwareSerialRS485/wiki

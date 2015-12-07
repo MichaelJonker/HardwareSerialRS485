@@ -500,7 +500,7 @@ this function has been coded such that if called with a compile time constant as
 
   virtual size_t write(uint8_t c)                                                   __attribute__((__used__));
   int flush(unsigned char retries)                                                  __attribute__((__used__));
-  void diagnose(const __FlashStringHelper* reason=0, Print& out=ourSerialObject)    __attribute__((__used__)); // TODO validate why I cannot use *this ?
+  void diagnose(const __FlashStringHelper* reason=0, Print& out=ourSerialObject)    __attribute__((__used__)); // TODO investigate why I cannot use *this ?
 
 private:
 
@@ -551,16 +551,8 @@ inline void recoverTransfer(bool waitForIdle) // method to recover from an RS485
 }
 
 
-/* the following mechanism is the only way I found so far to force the emission of flush(int) and diagnose()
-   to test compilations (bash shell syntax):
-export ArduinoIDE=/fill-in-your-path-to-arduino-IDE-folder
-export ArduinoProjects=/fill-in-your-path-to-arduino-project-folder
-cd $ArduinoProjects/libraries/HardwareSerialRS485
-$ArduinoIDE/hardware/tools/avr/bin/avr-g++ -E -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -MMD -DARDUINO=105 -I$ArduinoIDE/hardware/arduino/avr/cores/arduino -I$ArduinoIDE/hardware/arduino/avr/variants/standard -I. HardwareSerialRS485.cpp   >HardwareSerialRS485.cpp.e
-$ArduinoIDE/hardware/tools/avr/bin/avr-g++ -S -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -MMD -DARDUINO=105 -I$ArduinoIDE/hardware/arduino/avr/cores/arduino -I$ArduinoIDE/hardware/arduino/avr/variants/standard -I. HardwareSerialRS485.cpp -o HardwareSerialRS485.cpp.s
-$ArduinoIDE/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -MMD -DARDUINO=105 -I$ArduinoIDE/hardware/arduino/avr/cores/arduino -I$ArduinoIDE/hardware/arduino/avr/variants/standard -I. HardwareSerialRS485.cpp -o HardwareSerialRS485.cpp.o
-*/
-  virtual void neverUsed() //todo, check for alternatives to force emission, look at possibility of #pragma interface / #pragma implementation
+/* the following mechanism is the only way I found so far to force the emission of flush(int) and diagnose() */
+  virtual void neverUsed() //todo, check for alternatives, look at possibility of #pragma interface / #pragma implementation
   {
     flush(0);
     diagnose();
@@ -568,6 +560,16 @@ $ArduinoIDE/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -fno-exceptions -ffun
 
 
 }; // class HardwareSerialRS485 ======================================================================================================================
+
+
+/* to test compilations (bash shell syntax):
+export ArduinoIDE=/fill-in-your-path-to-arduino-IDE-folder
+export ArduinoProjects=/fill-in-your-path-to-arduino-project-folder
+cd $ArduinoProjects/libraries/HardwareSerialRS485
+$ArduinoIDE/hardware/tools/avr/bin/avr-g++ -E -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -MMD -DARDUINO=105 -I$ArduinoIDE/hardware/arduino/avr/cores/arduino -I$ArduinoIDE/hardware/arduino/avr/variants/standard -I. HardwareSerialRS485.cpp   >HardwareSerialRS485.cpp.e
+$ArduinoIDE/hardware/tools/avr/bin/avr-g++ -S -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -MMD -DARDUINO=105 -I$ArduinoIDE/hardware/arduino/avr/cores/arduino -I$ArduinoIDE/hardware/arduino/avr/variants/standard -I. HardwareSerialRS485.cpp -o HardwareSerialRS485.cpp.s
+$ArduinoIDE/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=16000000L -MMD -DARDUINO=105 -I$ArduinoIDE/hardware/arduino/avr/cores/arduino -I$ArduinoIDE/hardware/arduino/avr/variants/standard -I. HardwareSerialRS485.cpp -o HardwareSerialRS485.cpp.o
+*/
 
 
 #if defined(Implement_HardwareSerialRS485) // ++=========================================================================================================

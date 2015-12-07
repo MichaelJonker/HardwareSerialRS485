@@ -23,26 +23,20 @@ from the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 /* define HardwareSerialRS485 classes for all possible USARTs. */
 
-/* Important, this file may exists in more than one location:
-   A functional default/template/example file is located in folder libraries/HardwareSerialRS485/src
-   A copied and adapted file may be located in a sub folder of the hardware folder in the user project directory.
 
-   To tailor the HardwareSerialRS485 configuration, the user is advised to copy the two files:
-     - libraries/HardwareSerialRS485/src/HardwareSerialRS485_configuration.h  and
-     - libraries/HardwareSerialRS485/src/boards.txt
-   to a folder hardware/HardwareSerialRS485/avr (which is to be created in the user project folder, i.e. the folder
-   where all sketches and user libraries are located).
-   These two file can then be further tailored to the need of the user. For further explanations see the comments in this file and in boards.txt file.
+/* The configuration of the HardwareSerialRS485 classes is controlled by a number of preprocessor macros, all starting with the prefix RS485configuration_.
+   These preprocessor macros can be adapted in the boards.txt file. In case no definition is given by the boards.txt file,
+   then default values are taken from this file.
+
+   To tailor the HardwareSerialRS485 configuration using the boards.txt file, the user is advised to follow the instructions in the file
+   HardwareSerialRS485/InstallationIntructions.txt .
+   See also https://github.com/MichaelJonker/HardwareSerialRS485/wiki/installation-and-deployment
+
+   Only those definitions of RS485configuration_HardwareSerialRS485_<n> will be used for which a corresponding (i.e. target hardware dependent) UCSR<n>A register is defined.
+
+   Although not recommended, this file can be hacked and placed in a /utility subfolder of the folder where the customized boards.txt file has been placed.
  */
 
-
-
-// These definitions specify the configuration of the HardwareSerialRS485 classes and may (should) be tailored by the user as needed.
-// Only those definitions of RS485configuration_HardwareSerialRS485_<n> will be used for which a corresponding (i.e. target hardware dependent) UCSR<n>A register is defined.
-
-// The configuration of the HardwareSerialRS485 classes is controlled by a number of preprocessor macros, all starting with the prefix RS485configuration_.
-// These preprocessor macros can be adapted in this header file or (preferred) in the boards.txt file. In case no definition is given by the boards.txt file,
-// then default values are taken from this file.
 
 
 #if !defined(RS485configuration_TRxBufferParameters)
@@ -67,6 +61,8 @@ from the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
     #if defined(Implement_HardwareSerialRS485)      // only print the warning once
     #if !defined(RS485configuration_RS485helper)    // and not if the user defined his own RS485helper
     #warning "No definition of RS485configuration_TRxControl was given, a possibly defunct default is now used."
+//  TODO Change #warning to #error; Tricky, RS485configuration_TRxControl/RS485configuration_RS485helper is not always needed
+//  (e.g. in case we have defined all classes without RS485)
     #endif
     #endif
 #endif

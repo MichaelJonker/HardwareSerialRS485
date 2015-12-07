@@ -12,9 +12,10 @@
 #this file
 !.gitignore
 
-#the HardwareSerialRS485 descriptions (for human, librarien and IDE)
+#the HardwareSerialRS485 descriptions/instructions (for human, librarien and IDE)
 !readme.txt
 !readme.md
+!InstallationInstructions.txt
 !library.properties
 !keywords.txt
 

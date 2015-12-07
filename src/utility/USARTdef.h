@@ -195,10 +195,9 @@ Conclusion, as we use TXC interrupts, we maintain the TX_active status in the so
 ISR(T_USART##_UDRE_vect) { T_SERIAL.dreInt(); } \
 ISR(T_USART##_TX_vect)   { T_SERIAL.txcInt(); } \
 ISR(T_USART##_RX_vect)   { T_SERIAL.rxcInt(); } \
-void serialEvent() __attribute__((weak)); \
-void serialEvent() {} \
+void T_SERIAL##_Event() __attribute__((weak)); \
+void T_SERIAL##_Event() {} \
 volatile unsigned char T_USART::swReg;
-//TODO change defunct defintion of serialEvent into serialEvent<n>
 
 /* todo: any use for these thoughts? or is it better to define our friends elsewhere.
 //To resolve friendship ...

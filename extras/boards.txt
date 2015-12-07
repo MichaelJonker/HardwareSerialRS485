@@ -1,0 +1,216 @@
+# This boards.txt file can be tailored to your needs
+# 
+# builtin boards are defined in <Arduino>\hardware\arduino\avr\boards.txt
+
+#https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5-3rd-party-Hardware-specification
+#<yourBoard>.recipe.hooks.[sketch|libraries|core|linking|objcopy|savehex].[prebuild|postbuild].sequenceNumber.pattern=
+
+# a rather complex way to create a file that defines the getBuildTime() method returning the build date and time stamp.
+# this code has been commented out, you can uncomment and further addapt it if you gave a cygwin installation
+# IDE -- 1.6.5 ; create and add __BuildTime__ to the {build.path} folder
+#RS485_Arduino_Uno.recipe.hooks.sketch.prebuild.01.pattern=c:/cygwin64/bin/bash -c '/usr/bin/echo -e `/usr/bin/date +"#include \\"arduino.h\\"\\\nconst __FlashStringHelper* getBuildTime() { static const char __BuildTime__[] PROGMEM =\\"Build-%Y%m%d%H%M%S\\"; return reinterpret_cast<const __FlashStringHelper *> (&__BuildTime__[0]); }"` >`/usr/bin/cygpath "{build.path}\__BuildTime__.cpp"`'
+#RS485_Arduino_Micro.recipe.hooks.sketch.prebuild.01.pattern=c:/cygwin64/bin/bash -c '/usr/bin/echo -e `/usr/bin/date +"#include \\"arduino.h\\"\\\nconst __FlashStringHelper* getBuildTime() { static const char __BuildTime__[] PROGMEM =\\"Build-%Y%m%d%H%M%S\\"; return reinterpret_cast<const __FlashStringHelper *> (&__BuildTime__[0]); }"` >`/usr/bin/cygpath "{build.path}\__BuildTime__.cpp"`'
+
+# IDE 1.6.6 -- ; create and add __BuildTime__ to the {build.path}/sketch folder
+#RS485_Arduino_Uno.recipe.hooks.sketch.prebuild.01.pattern=c:/cygwin64/bin/bash -c '/usr/bin/echo -e `/usr/bin/date +"#include \\"arduino.h\\"\\\nconst __FlashStringHelper* getBuildTime() { static const char __BuildTime__[] PROGMEM =\\"Build-%Y%m%d%H%M%S\\"; return reinterpret_cast<const __FlashStringHelper *> (&__BuildTime__[0]); }"` >`/usr/bin/cygpath "{build.path}\sketch\__BuildTime__.cpp"`'
+#RS485_Arduino_Micro.recipe.hooks.sketch.prebuild.01.pattern=c:/cygwin64/bin/bash -c '/usr/bin/echo -e `/usr/bin/date +"#include \\"arduino.h\\"\\\nconst __FlashStringHelper* getBuildTime() { static const char __BuildTime__[] PROGMEM =\\"Build-%Y%m%d%H%M%S\\"; return reinterpret_cast<const __FlashStringHelper *> (&__BuildTime__[0]); }"` >`/usr/bin/cygpath "{build.path}\sketch\__BuildTime__.cpp"`'
+
+
+#create a sub-menu for our 485 enabled boards with specific configuration options
+menu.RS485=RS485 options
+
+# define the RS485 aware boards
+RS485_Arduino_Uno.name=Arduino UNO with RS485
+RS485_Arduino_Micro.name=Arduino Micro with RS485
+
+
+## as set up in the platform.txt file:
+## recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -mmcu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+## recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -mmcu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+## compiler.c.cmd=avr-gcc
+## compiler.cpp.cmd=avr-g++
+## compiler.c.flags=-c -g -Os {compiler.warning_flags} -ffunction-sections -fdata-sections -MMD
+## compiler.cpp.flags=-c -g -Os {compiler.warning_flags} -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD
+## compiler.c.extra_flags=
+## compiler.cpp.extra_flags=
+## buid.extra_flags=
+## buid.extra_flags is used in boaards,txt to set USB options for Atmel32u4 based boards
+
+## TODO
+## RS485_Arduino_Uno.compiler.cpp.flags=-DEF2Acpp -c -g -Os {compiler.warning_flags.all} -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD
+
+
+# As of IDE 1.6.6, the header "Arduino.h" is #included before anything else in the sketch. To intercept the loading of the classical HardwareSerial header file 
+# we force include the file DisableHardwareSerial.h (which resides in the same folder {runtime.platform.path} as this boards file.)
+RS485_Arduino_Uno.RS485_flags=-include DisableHardwareSerial.h "-I{runtime.platform.path}"
+RS485_Arduino_Micro.RS485_flags=-include DisableHardwareSerial.h "-I{runtime.platform.path}"
+RS485_Arduino_Micro.build.extra_flags={build.usb_flags}
+
+
+#
+#Define submenu items for RS485_Arduino_Uno ===========================
+RS485_Arduino_Uno.menu.RS485.option1=RS485
+RS485_Arduino_Uno.menu.RS485.option1.compiler.cpp.extra_flags= {RS485_flags} "-DRS485configuration_TRxControl=TRxControl< 'B', 2, 3 >"
+
+RS485_Arduino_Uno.menu.RS485.option2=no RS485
+RS485_Arduino_Uno.menu.RS485.option2.compiler.cpp.extra_flags= {RS485_flags} "-DRS485configuration_HardwareSerialRS485_0=HardwareSerialRS485< USART0 >"
+
+#Define submenue items for RS485_Arduino_Micro =========================
+RS485_Arduino_Micro.menu.RS485.option1=RS485 TxE=B7 RxE*=B6
+RS485_Arduino_Micro.menu.RS485.option1.compiler.cpp.extra_flags= {RS485_flags} "-DRS485configuration_TRxControl=TRxControl< 'B', 7, 6 >"
+
+RS485_Arduino_Micro.menu.RS485.option2=RS485 TxE=B7 RxE*=B6 RxBuffer[256]
+RS485_Arduino_Micro.menu.RS485.option2.compiler.cpp.extra_flags= {RS485_flags} "-DRS485configuration_TRxControl=TRxControl< 'B', 7, 6 >" "-DRS485configuration_TRxBufferParameters=6, 8, 0x20"
+
+RS485_Arduino_Micro.menu.RS485.option3=no RS485
+RS485_Arduino_Micro.menu.RS485.option3.compiler.cpp.extra_flags= {RS485_flags} "-DRS485configuration_HardwareSerialRS485_1=HardwareSerialRS485< USART1, RS485configuration_TRxBufferParameters >"
+
+
+##################################################################################
+# These values can be adapted by you                                             #
+##################################################################################
+# This is the list of defintions that can be addapted and added to the <yourBoard>.menu.RS485.<yourBoardOption>.build.extra_flags=
+# "-DRS485configuration_TRxBufferParameters=6, 6, 0x20"
+# "-DRS485configuration_TRxControl=TRxControl< 'B', 2, 3 >"
+# "-DRS485configuration_RS485helper=RS485serial< RS485configuration_TRxControl >"
+# "-DRS485configuration_MessageFilterParameters=MFP< '{', '}' >"
+# "-DRS485configuration_MessageFilter=MessageFilter< RS485configuration_MessageFilterParameters > "
+# "-DRS485configuration_HardwareSerialRS485_0=HardwareSerialRS485< USART0, RS485configuration_TRxBufferParameters, RS485configuration_RS485helper, RS485configuration_MessageFilter >"
+#
+# Note: you can also add your own c preprocessor #defines like:
+# "-DAnswer=0x2A"
+
+
+# The connection of Arduino port to the WE and RE* are specified in the macro defintion RS485configuration_TRxControl=TRxControl< 'B', 2, 3 >
+# through the template parameters of the TRxControl template class. The first template parameter specifies the port, the second and third parameter
+# specify the port pins for the WE and RE* connection. N.B. the mapping between the port pins of the Atmega IC and the Arduino shield PINS (D0...D13, A0...A5)
+# for the UNO (Atmega328p) and Micro/Leonardo (Atmega 32u4) are not identical.
+#Example on the UNO,   if you connected TxE with D10 (B2) and RxE* with D11 (B3), you need TRxControl< 'B', 2, 3 >
+#        on the Micro, if you connected TxE with D10 (B6) and RxE* with D11 (B7), you need TRxControl< 'B', 6, 7 >
+#        N.B. there is no support to drive enable pins from different ports.
+# This table specifies the mapping between Atmega port pins and Arduino shield pins
+#  Port       UNO               Micro             
+#  PB0     14 D8              8 RXLED/SS  
+#  PB1     15 D9              9 SCK       
+#  PB2     16 D10/SS         10 MOSI      
+#  PB3     17 D11/MOSI       11 MISO      
+#  PB4     18 D12/MISO       28 D8       
+#  PB5     19 D13/SCK        29 D9  
+#  PB6      9 XTAL1          30 D10
+#  PB7     10 XTAL2          12 D11
+#                                         
+#  PC0     23 A0                          
+#  PC1     24 A1                          
+#  PC2     25 A2                          
+#  PC3     26 A3                          
+#  PC4     27 A4/SCA                      
+#  PC5     28 A5/SCL                      
+#  PC6      1 Reset          31 D5
+#  PC7                       32 D13
+#                                         
+#  PD0      2 D0/RX          18 D3/SCL    
+#  PD1      3 D1/TX          19 D2/SDA    
+#  PD2      4 D2             20 D0/RX     
+#  PD3      5 D3             21 D1/TX     
+#  PD4      6 D4             25 D4
+#  PD5     11 D5             22 -- TXLED  
+#  PD6     12 D6             26 D12
+#  PD7     13 D7             27 D6
+#                                         
+#  PE2                        1 D7        
+#  PE6                       33 HWB       
+#                                         
+#  PF0                       41 A5        
+#  PF1                       40 A4        
+#  PF4                       39 A3        
+#  PF5                       38 A2        
+#  PF6                       37 A1        
+#  PF7                       36 A0        
+#  
+
+
+# A number of defintions have to be copied from the standard board file, i.e. <Arduino>\hardware\arduino\avr\boards.txt, for every board that we adapt.
+# these values are copied from the Arduino UNO
+RS485_Arduino_Uno.vid.0=0x2341
+RS485_Arduino_Uno.pid.0=0x0043
+RS485_Arduino_Uno.vid.1=0x2341
+RS485_Arduino_Uno.pid.1=0x0001
+RS485_Arduino_Uno.vid.2=0x2A03
+RS485_Arduino_Uno.pid.2=0x0043
+RS485_Arduino_Uno.vid.3=0x2341
+RS485_Arduino_Uno.pid.3=0x0243
+
+RS485_Arduino_Uno.build.mcu=atmega328p
+RS485_Arduino_Uno.build.f_cpu=16000000L
+RS485_Arduino_Uno.build.board=AVR_UNO
+RS485_Arduino_Uno.build.core=arduino:arduino
+RS485_Arduino_Uno.build.variant=arduino:standard
+
+RS485_Arduino_Uno.upload.tool=arduino:avrdude
+RS485_Arduino_Uno.upload.protocol=arduino
+RS485_Arduino_Uno.upload.maximum_size=32256
+RS485_Arduino_Uno.upload.maximum_data_size=2048
+RS485_Arduino_Uno.upload.speed=115200
+
+RS485_Arduino_Uno.bootloader.tool=arduino:avrdude
+RS485_Arduino_Uno.bootloader.low_fuses=0xFF
+RS485_Arduino_Uno.bootloader.high_fuses=0xDE
+RS485_Arduino_Uno.bootloader.extended_fuses=0x05
+RS485_Arduino_Uno.bootloader.unlock_bits=0x3F
+RS485_Arduino_Uno.bootloader.lock_bits=0x0F
+#RS485_Arduino_Uno.bootloader.file=optiboot/optiboot_atmega328.hex
+
+
+# these values are copied from the Arduino Micro
+RS485_Arduino_Micro.vid.0=0x2341
+RS485_Arduino_Micro.pid.0=0x0037
+RS485_Arduino_Micro.vid.1=0x2341
+RS485_Arduino_Micro.pid.1=0x8037
+RS485_Arduino_Micro.vid.2=0x2A03
+RS485_Arduino_Micro.pid.2=0x0037
+RS485_Arduino_Micro.vid.3=0x2A03
+RS485_Arduino_Micro.pid.3=0x8037
+
+RS485_Arduino_Micro.vid.4=0x2341
+RS485_Arduino_Micro.pid.4=0x0237
+# If the board is a 2341:0237 use 2341:8237 for build and set
+# other parameters as well
+RS485_Arduino_Micro.vid.4.build.vid=0x2341
+RS485_Arduino_Micro.vid.4.build.pid=0x8237
+RS485_Arduino_Micro.vid.4.build.usb_product="Genuino Micro"
+RS485_Arduino_Micro.vid.4.bootloader.file=caterina/Caterina-Genuino-Micro.hex
+
+RS485_Arduino_Micro.vid.5=0x2341
+RS485_Arduino_Micro.pid.5=0x8237
+# If the board is a 2341:8237 use 2341:8237 for build and set
+# other paramters as well
+RS485_Arduino_Micro.vid.5.build.vid=0x2341
+RS485_Arduino_Micro.vid.5.build.pid=0x8237
+RS485_Arduino_Micro.vid.5.build.usb_product="Genuino Micro"
+RS485_Arduino_Micro.vid.5.bootloader.file=caterina/Caterina-Genuino-Micro.hex
+
+RS485_Arduino_Micro.build.mcu=atmega32u4
+RS485_Arduino_Micro.build.f_cpu=16000000L
+RS485_Arduino_Micro.build.vid=0x2341
+RS485_Arduino_Micro.build.pid=0x8037
+RS485_Arduino_Micro.build.usb_product="Arduino Micro"
+RS485_Arduino_Micro.build.board=AVR_MICRO
+RS485_Arduino_Micro.build.core=arduino:arduino
+RS485_Arduino_Micro.build.variant=arduino:micro
+
+RS485_Arduino_Micro.upload.tool=arduino:avrdude
+RS485_Arduino_Micro.upload.protocol=avr109
+RS485_Arduino_Micro.upload.maximum_size=28672
+RS485_Arduino_Micro.upload.maximum_data_size=2560
+RS485_Arduino_Micro.upload.speed=57600
+RS485_Arduino_Micro.upload.disable_flushing=true
+RS485_Arduino_Micro.upload.use_1200bps_touch=true
+RS485_Arduino_Micro.upload.wait_for_upload_port=true
+
+RS485_Arduino_Micro.bootloader.tool=arduino:avrdude
+RS485_Arduino_Micro.bootloader.low_fuses=0xff
+RS485_Arduino_Micro.bootloader.high_fuses=0xd8
+RS485_Arduino_Micro.bootloader.extended_fuses=0xcb
+#RS485_Arduino_Micro.bootloader.file=caterina/Caterina-Micro.hex
+RS485_Arduino_Micro.bootloader.unlock_bits=0x3F
+RS485_Arduino_Micro.bootloader.lock_bits=0x2F

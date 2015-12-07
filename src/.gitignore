@@ -19,9 +19,5 @@
 #the Messagereader header file
 !MessageReader.h
 
-#the HardwareSerialRS485_configuration and boards.txt
-!HardwareSerialRS485_configuration.h
-!boards.txt
-
 # sub folders
 !utility

@@ -25,12 +25,6 @@ from the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 // Todo look at possibility of #pragma interface / #pragma implementation
 
-#if defined(HardwareSerial_use_classical_version)
-// we use the classical version, we include the cpp code from HardwareSerial.cpp
-#warning "HardwareSerialRS485 uses classical version ======================================================"
-#include "HardwareSerial.cpp"
-#endif
-
 
 
 /* testing options:

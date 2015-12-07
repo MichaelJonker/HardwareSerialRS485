@@ -25,12 +25,12 @@ from the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
   #error “The __FILE__ library only supports boards with an AVR.”
 #endif
 
+#if !defined(HardwareSerial_h)  // if HardwareSerial was not disabled yet...
+#define HardwareSerial_h        // make sure that it gets disabled
+#endif
 
-#if !defined(HardwareSerial_use_classical_version)
-#if !defined(HardwareSerial_h)
-    #define HardwareSerial_h /* block loading the classsical version of HardwareSerial */
-#else
-    #error "HardwareSerial.h already loaded. The file HardwareSerialRS485.h must be included before the #include ""Arduino.h"" (whether explicit or implicit)."
+#if defined(Serial_8N1) // we use a different 'marker' to detect the presence of HardwareSerial.h
+    #error "HardwareSerial.h already loaded. You have not selected an RS485 specific board, or your boards.txt file is incomplete (see documentation https://github.com/MichaelJonker/HardwareSerialRS485/wiki/installation-and-deployment)."
 #endif
 
 #include "utility/Messagefilter.h"
@@ -39,7 +39,7 @@ from the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 // The definitions RS485configuration_HardwareSerialRS485_<n> for the HardwareSerial classes are provided by the file "HardwareSerialRS485_configuration.h"
 // For a HardwareSerialRS485_<n> class to be created, both the RS485configuration_HardwareSerialRS485_<n> should be defined, and a corresponding (i.e. target hardware dependent) USART<n> class should exists.
-#include "HardwareSerialRS485_configuration.h"
+#include "utility/HardwareSerialRS485_configuration.h"
 
 
 #if 1 /* define HardwareSerialRS485_0...3 and the corresponding objects Serial0...3 */
@@ -95,8 +95,6 @@ from the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
         HardwareSerialRS485_0 Serial0;
         template<> HardwareSerialRS485_0& HardwareSerialRS485_0::ourSerialObject = Serial0;
         link_USART_Vectors(USART0, Serial0);
-        void serialEvent0() __attribute__((weak));
-        void serialEvent0() {}
     #endif
 #endif
 #if defined(UCSR1A)
@@ -104,8 +102,6 @@ from the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
         HardwareSerialRS485_1 Serial1;
         template<> HardwareSerialRS485_1& HardwareSerialRS485_1::ourSerialObject = Serial1;
         link_USART_Vectors(USART1, Serial1);
-        void serialEvent1() __attribute__((weak));
-        void serialEvent1() {}
     #endif
 #endif
 #if defined(UCSR2A)
@@ -113,8 +109,6 @@ from the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
         HardwareSerialRS485_2 Serial2;
         template<> HardwareSerialRS485_2& HardwareSerialRS485_2::ourSerialObject = Serial2;
         link_USART_Vectors(USART2, Serial2);
-        void serialEvent2() __attribute__((weak));
-        void serialEvent2() {}
     #endif
 #endif
 #if defined(UCSR3A)
@@ -122,41 +116,37 @@ from the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
         HardwareSerialRS485_3 Serial3;
         template<> HardwareSerialRS485_3& HardwareSerialRS485_3::ourSerialObject = Serial3;
         link_USART_Vectors(USART3, Serial3);
-        void serialEvent3() __attribute__((weak));
-        void serialEvent3() {}
     #endif
 #endif
 
 // build up serialEventRun
 // IMHO serialEventRun is a useless function, I put it here for compatability with HardwareSerial
-extern void serialEventRun(void) __attribute__((weak));
+//todo extern void serialEventRun(void) __attribute__((weak));
 void serialEventRun(void)
 {
 #if defined(UCSR0A)
     #if defined(RS485configuration_HardwareSerialRS485_0)
-        if (Serial0.available()) serialEvent0();
+        if (Serial0.available()) Serial0_Event();
     #endif
 #endif
 #if defined(UCSR1A)
     #if defined(RS485configuration_HardwareSerialRS485_1)
-        if (Serial1.available()) serialEvent1();
+        if (Serial1.available()) Serial1_Event();
     #endif
 #endif
 #if defined(UCSR2A)
     #if defined(RS485configuration_HardwareSerialRS485_2)
-        if (Serial2.available()) serialEvent2();
+        if (Serial2.available()) Serial2_Event();
     #endif
 #endif
 #if defined(UCSR3A)
     #if defined(RS485configuration_HardwareSerialRS485_3)
-        if (Serial3.available()) serialEvent3();
+        if (Serial3.available()) Serial3_Event();
     #endif
 #endif
 }
 
 #endif // defined(Implement_HardwareSerialRS485) ++ ====================================================================================================
 
-
-#endif // !defined(HardwareSerial_use_classical_version)
 
 #endif // !defined(HardwareSerialRS485_h)
